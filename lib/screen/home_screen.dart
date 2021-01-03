@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wishlist/screen/list_screen.dart';
 import 'package:flutter_wishlist/view/style/color.dart';
 import 'package:flutter_wishlist/view/style/text_style.dart';
 import 'package:flutter_wishlist/screen/side_menu.dart';
@@ -15,6 +16,12 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: AppColors.blue,
       ),
       drawer: SideMenu(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => ListScreen())),
+        child: Icon(Icons.add),
+        backgroundColor: AppColors.blue,
+      ),
     );
   }
 }

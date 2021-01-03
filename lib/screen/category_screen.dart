@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wishlist/entities/category_entity.dart';
 import 'package:flutter_wishlist/models/category.dart';
-import 'package:flutter_wishlist/screen/wish_list_screen.dart';
+import 'package:flutter_wishlist/screen/home_screen.dart';
 import 'package:flutter_wishlist/view/style/color.dart';
 import 'package:flutter_wishlist/view/style/text_style.dart';
 

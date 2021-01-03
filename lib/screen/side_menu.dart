@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wishlist/screen/wish_list_screen.dart';
+import 'package:flutter_wishlist/screen/home_screen.dart';
 import 'package:flutter_wishlist/screen/setting_screen.dart';
 import 'package:flutter_wishlist/screen/category_screen.dart';
 import 'package:flutter_wishlist/view/style/color.dart';
