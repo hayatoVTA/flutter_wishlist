@@ -30,11 +30,13 @@ class _SideMenuState extends State<SideMenu> {
       setState(() {
         _categoryList.add(InkWell(
           onTap: () => Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new ChoiceCategory(
-                        category: category['name'],
-                      ))),
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new ChoiceCategory(
+                category: category['name'],
+              ),
+            ),
+          ),
           child: ListTile(
             title: Text(category['name']),
           ),

@@ -39,7 +39,7 @@ class _ChoiceCategoryState extends State<ChoiceCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Task by category'),
+        title: Text('選択したカテゴリ'),
         backgroundColor: AppColors.blue,
       ),
       body: Column(

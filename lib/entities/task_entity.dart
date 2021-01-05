@@ -20,7 +20,7 @@ class TaskEntity {
 
   // Read task by category
   readTaskByChoiceCategory(category) async {
-    return await _repository.readDataByChoiceColumn(
+    return await _repository.readDataByChoiceColumnName(
         'task', 'category', category);
   }
 }
