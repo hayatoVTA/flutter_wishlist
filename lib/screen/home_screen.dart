@@ -1,14 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wishlist/entities/task_entity.dart';
+import 'package:flutter_wishlist/models/task.dart';
 import 'package:flutter_wishlist/screen/list_screen.dart';
 import 'package:flutter_wishlist/view/style/color.dart';
-import 'package:flutter_wishlist/view/style/text_style.dart';
 import 'package:flutter_wishlist/screen/side_menu.dart';
-import 'package:flutter_wishlist/screen/task_list.dart';
-import 'package:flutter_wishlist/screen/add_task_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_wishlist/models/task_data.dart';
+import 'package:flutter_wishlist/view/style/text_style.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TaskEntity _taskEntity;
+
+  List<Task> _taskList = List<Task>();
+
+  initState() {
+    super.initState();
+    getAllTask();
+  }
+
+  getAllTask() async {
+    _taskEntity = TaskEntity();
+    _taskList = List<Task>();
+
+    var task = await _taskEntity.readTask();
+
+    task.forEach((task) {
+      setState(() {
+        var model = Task();
+        model.id = task['id'];
+        model.title = task['title'];
+        model.category = task['category'];
+        model.isFinished = task['isFinished'];
+        model.taskDate = task['taskDate'];
+        _taskList.add(model);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -16,6 +48,35 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: AppColors.blue,
       ),
       drawer: SideMenu(),
+      body: ListView.builder(
+        itemCount: _taskList.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+              ),
+              child: ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _taskList[index].title ?? 'タイトルはありません',
+                      style: AppTextStyle.BoldBlack15,
+                    ),
+                  ],
+                ),
+                subtitle:
+                    Text('カテゴリー：' + _taskList[index].category ?? 'カテゴリーはありません'),
+                trailing:
+                    Text('日付：' + _taskList[index].taskDate ?? '日付設定はありません'),
+              ),
+            ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => ListScreen())),
@@ -25,54 +86,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// Scaffold(
-// backgroundColor: AppColors.green,
-// body: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// Container(
-// padding: EdgeInsets.only(
-// top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// FloatingActionButton(
-// onPressed: null,
-// child: Icon(
-// Icons.list,
-// size: 30.0,
-// color: AppColors.green,
-// ),
-// backgroundColor: AppColors.white,
-// ),
-// SizedBox(
-// height: 10.0,
-// ),
-// Text(
-// '私のリスト',
-// style: TextStyle(
-// color: AppColors.white,
-// fontSize: 40.0,
-// fontWeight: FontWeight.w700,
-// ),
-// ),
-// ],
-// ),
-// ),
-// Expanded(
-// child: Container(
-// padding: EdgeInsets.symmetric(horizontal: 20.0),
-// decoration: BoxDecoration(
-// color: AppColors.white,
-// borderRadius: BorderRadius.only(
-// topLeft: Radius.circular(20.0),
-// topRight: Radius.circular(20.0),
-// ),
-// ),
-// // child: TasksList(),
-// ),
-// ),
-// ],
-// ),
-// );
