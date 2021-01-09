@@ -18,9 +18,14 @@ class TaskEntity {
     return await _repository.readData('task');
   }
 
-  // Read task by category
-  readTaskByChoiceCategory(category) async {
-    return await _repository.readDataByChoiceColumnName(
-        'task', 'category', category);
+  // Delete data from table
+  deleteTask(categoryId) async {
+    return await _repository.deleteData('task', categoryId);
   }
+
+  // // Read task by category
+  // readTaskByChoiceCategory(category) async {
+  //   return await _repository.readDataByChoiceColumnName(
+  //       'task', 'category', category);
+  // }
 }

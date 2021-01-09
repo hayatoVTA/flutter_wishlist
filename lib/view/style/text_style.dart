@@ -10,7 +10,7 @@ class AppTextStyle {
   );
 
   static const W300White13 = TextStyle(
-    color: AppColors.white,
+    color: Colors.white,
     fontSize: 13.0,
     fontWeight: FontWeight.w300,
   );
@@ -18,7 +18,7 @@ class AppTextStyle {
   static const W400White20 = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 20.0,
-    color: AppColors.white,
+    color: Colors.white,
   );
 
   static const BoldBlack10 = TextStyle(
@@ -28,7 +28,7 @@ class AppTextStyle {
 
   static const BoldWhite13 = TextStyle(
     fontSize: 13.0,
-    color: AppColors.white,
+    color: Colors.white,
     fontWeight: FontWeight.bold,
   );
 
@@ -40,7 +40,7 @@ class AppTextStyle {
   static const W300Gray10 = TextStyle(
     fontSize: 10.0,
     fontWeight: FontWeight.w300,
-    color: AppColors.gray,
+    color: Colors.grey,
   );
 
   static const W300Black10 = TextStyle(
@@ -49,19 +49,19 @@ class AppTextStyle {
   );
 
   static const BoldWhite18 = TextStyle(
-    color: AppColors.white,
+    color: Colors.white,
     fontWeight: FontWeight.bold,
     fontSize: 18.0,
   );
 
   static const BoldWhite20 = TextStyle(
-    color: AppColors.white,
+    color: Colors.white,
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
 
   static const W300Gray18 = TextStyle(
-    color: AppColors.gray,
+    color: Colors.grey,
     fontWeight: FontWeight.w300,
     fontSize: 13.0,
   );

@@ -1,11 +1,7 @@
-import 'dart:ffi';
 import 'package:flutter_wishlist/models/task.dart';
 import 'package:flutter_wishlist/entities/task_entity.dart';
 import 'package:intl/intl.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_wishlist/entities/category_entity.dart';
-import 'package:flutter_wishlist/view/style/color.dart';
 
 class ListScreen extends StatefulWidget {
   @override
@@ -19,28 +15,28 @@ class _ListScreenState extends State<ListScreen> {
 
   var _selectedValue;
 
-  var _categories = List<DropdownMenuItem>();
+  // var _categories = List<DropdownMenuItem>();
 
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadCategories();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadCategories();
+  // }
 
-  _loadCategories() async {
-    var _categoryEntity = CategoryEntity();
-    var categories = await _categoryEntity.readCategory();
-    categories.forEach((category) {
-      setState(() {
-        _categories.add(DropdownMenuItem(
-          child: Text(category['name']),
-          value: category['name'],
-        ));
-      });
-    });
-  }
+  // _loadCategories() async {
+  //   var _categoryEntity = CategoryEntity();
+  //   var categories = await _categoryEntity.readCategory();
+  //   categories.forEach((category) {
+  //     setState(() {
+  //       _categories.add(DropdownMenuItem(
+  //         child: Text(category['name']),
+  //         value: category['name'],
+  //       ));
+  //     });
+  //   });
+  // }
 
   DateTime _dateTime = DateTime.now();
 
@@ -69,8 +65,7 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text("リストを作成する"),
-        backgroundColor: AppColors.blue,
+        title: Text("タスクを作成する"),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -79,15 +74,15 @@ class _ListScreenState extends State<ListScreen> {
             TextField(
               controller: _taskTitleController,
               decoration: InputDecoration(
-                labelText: 'title',
-                hintText: 'タイトルを入力',
+                labelText: 'Task',
+                hintText: 'タスクを追加',
               ),
             ),
             TextField(
               controller: _taskDateController,
               decoration: InputDecoration(
-                labelText: 'data',
-                hintText: '日付を入力',
+                labelText: 'Date',
+                hintText: '日付を追加',
                 prefixIcon: InkWell(
                   onTap: () {
                     _selectedListDate(context);
@@ -96,16 +91,16 @@ class _ListScreenState extends State<ListScreen> {
                 ),
               ),
             ),
-            DropdownButtonFormField(
-              items: _categories,
-              value: _selectedValue,
-              hint: Text('カテゴリー'),
-              onChanged: (value) {
-                setState(() {
-                  _selectedValue = value;
-                });
-              },
-            ),
+            // DropdownButtonFormField(
+            //   // items: _categories,
+            //   value: _selectedValue,
+            //   hint: Text('カテゴリー'),
+            //   onChanged: (value) {
+            //     setState(() {
+            //       _selectedValue = value;
+            //     });
+            //   },
+            // ),
             SizedBox(
               height: 20.0,
             ),
@@ -115,7 +110,7 @@ class _ListScreenState extends State<ListScreen> {
 
                 taskObject.title = _taskTitleController.text;
                 taskObject.isFinished = 0;
-                taskObject.category = _selectedValue.toString();
+                // taskObject.category = _selectedValue.toString();
                 taskObject.taskDate = _taskDateController.text;
 
                 var _taskEntity = TaskEntity();
@@ -128,10 +123,8 @@ class _ListScreenState extends State<ListScreen> {
                 print(result);
                 print(taskObject.title);
               },
-              color: AppColors.blue,
               child: Text(
                 '作成する',
-                style: TextStyle(color: AppColors.white),
               ),
             )
           ],

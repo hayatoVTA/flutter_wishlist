@@ -4,8 +4,9 @@ import 'package:flutter_wishlist/screen/choice_category.dart';
 import 'package:flutter_wishlist/screen/home_screen.dart';
 import 'package:flutter_wishlist/screen/setting_screen.dart';
 import 'package:flutter_wishlist/screen/category_screen.dart';
-import 'package:flutter_wishlist/view/style/color.dart';
 import 'package:flutter_wishlist/view/style/text_style.dart';
+import 'package:flutter_wishlist/view/style/theme_mode_notifier.dart';
+import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
   @override
@@ -15,35 +16,35 @@ class SideMenu extends StatefulWidget {
 class _SideMenuState extends State<SideMenu> {
   List<Widget> _categoryList = List<Widget>();
 
-  CategoryEntity _categoryEntity = CategoryEntity();
+  // CategoryEntity _categoryEntity = CategoryEntity();
 
-  @override
-  initState() {
-    super.initState();
-    getAllCategories();
-  }
+  // @override
+  // initState() {
+  //   super.initState();
+  //   getAllCategories();
+  // }
 
-  getAllCategories() async {
-    var categories = await _categoryEntity.readCategory();
-
-    categories.forEach((category) {
-      setState(() {
-        _categoryList.add(InkWell(
-          onTap: () => Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) => new ChoiceCategory(
-                category: category['name'],
-              ),
-            ),
-          ),
-          child: ListTile(
-            title: Text(category['name']),
-          ),
-        ));
-      });
-    });
-  }
+  // getAllCategories() async {
+  //   var categories = await _categoryEntity.readCategory();
+  //
+  //   categories.forEach((category) {
+  //     setState(() {
+  //       _categoryList.add(InkWell(
+  //         onTap: () => Navigator.push(
+  //           context,
+  //           new MaterialPageRoute(
+  //             builder: (context) => new ChoiceCategory(
+  //               category: category['name'],
+  //             ),
+  //           ),
+  //         ),
+  //         child: ListTile(
+  //           title: Text(category['name']),
+  //         ),
+  //       ));
+  //     });
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     return Drawer(
@@ -51,18 +52,8 @@ class _SideMenuState extends State<SideMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           SizedBox(
-            height: 110,
-            child: DrawerHeader(
-              child: Text(
-                "カテゴリー",
-                style: AppTextStyle.BoldWhite20,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.blue,
-              ),
-            ),
+            height: 100,
           ),
-          SizedBox(height: 20),
           ListTile(
             leading: Icon(Icons.home),
             title: Text(
@@ -72,28 +63,27 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => HomeScreen())),
           ),
+          // ListTile(
+          //   leading: Icon(Icons.list),
+          //   title: Text(
+          //     "カテゴリー",
+          //     style: AppTextStyle.BoldBlack20,
+          //   ),
+          //   onTap: () => Navigator.of(context).push(
+          //       MaterialPageRoute(builder: (context) => CategoryScreen())),
+          // ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text(
-              "設定",
+              "カラー設定",
               style: AppTextStyle.BoldBlack20,
             ),
             onTap: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => SettingScreen())),
           ),
-          ListTile(
-            leading: Icon(Icons.list),
-            title: Text(
-              "カテゴリー",
-              style: AppTextStyle.BoldBlack20,
-            ),
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => CategoryScreen())),
-          ),
-          Divider(),
-          Column(
-            children: _categoryList,
-          ),
+          // Column(
+          //   children: _categoryList,
+          // ),
         ],
       ),
     );

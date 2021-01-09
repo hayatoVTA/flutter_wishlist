@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wishlist/entities/task_entity.dart';
 import 'package:flutter_wishlist/models/task.dart';
 import 'package:flutter_wishlist/screen/list_screen.dart';
-import 'package:flutter_wishlist/view/style/color.dart';
 import 'package:flutter_wishlist/screen/side_menu.dart';
 import 'package:flutter_wishlist/view/style/text_style.dart';
 
@@ -12,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TaskEntity _taskEntity;
+  TaskEntity _taskEntity = TaskEntity();
 
   List<Task> _taskList = List<Task>();
 
@@ -32,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
         var model = Task();
         model.id = task['id'];
         model.title = task['title'];
-        model.category = task['category'];
         model.isFinished = task['isFinished'];
         model.taskDate = task['taskDate'];
         _taskList.add(model);
@@ -40,12 +38,54 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
+  _deleteFormDialog(BuildContext context, categoryId) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (param) {
+          return AlertDialog(
+            actions: [
+              FlatButton(
+                color: Colors.red,
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "キャンセル",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              FlatButton(
+                color: Colors.green,
+                onPressed: () async {
+                  var result = await _taskEntity.deleteTask(categoryId);
+                  if (result > 0) {
+                    Navigator.pop(context);
+                    getAllTask();
+                    _showSuccessSnackBar(Text('削除しました'));
+                  }
+                },
+                child: Text(
+                  "削除",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+            title: Text("タスクを削除する"),
+          );
+        });
+  }
+
+  _showSuccessSnackBar(message) {
+    var _snackBar = SnackBar(content: message);
+    _globalKey.currentState.showSnackBar(_snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("ホーム"),
-        backgroundColor: AppColors.blue,
       ),
       drawer: SideMenu(),
       body: ListView.builder(
@@ -60,18 +100,27 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: ListTile(
                 title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      _taskList[index].title ?? 'タイトルはありません',
-                      style: AppTextStyle.BoldBlack15,
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () {
+                        _deleteFormDialog(context, _taskList[index].id);
+                      },
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Flexible(
+                      child: Text(
+                        _taskList[index].title,
+                        style: AppTextStyle.BoldBlack15,
+                      ),
                     ),
                   ],
                 ),
-                subtitle:
-                    Text('カテゴリー：' + _taskList[index].category ?? 'カテゴリーはありません'),
-                trailing:
-                    Text('日付：' + _taskList[index].taskDate ?? '日付設定はありません'),
+                trailing: Text(_taskList[index].taskDate),
               ),
             ),
           );
@@ -80,8 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => ListScreen())),
-        child: Icon(Icons.add),
-        backgroundColor: AppColors.blue,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

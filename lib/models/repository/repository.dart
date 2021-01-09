@@ -48,10 +48,10 @@ class Repository {
     return await connection.rawDelete('DELETE FROM $table WHERE id = $itemId');
   }
 
-  // Read data from table by Column name
-  readDataByChoiceColumnName(table, columnName, columnValue) async {
-    var connection = await database;
-    return await connection
-        .query(table, where: '$columnName=?', whereArgs: [columnValue]);
-  }
+  // // Read data from table by Column name
+  // readDataByChoiceColumnName(table, columnName, columnValue) async {
+  //   var connection = await database;
+  //   return await connection
+  //       .query(table, where: '$columnName=?', whereArgs: [columnValue]);
+  // }
 }
